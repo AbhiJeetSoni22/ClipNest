@@ -13,7 +13,12 @@ connectDB();
 
 const app = express();
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-app.use(cors())
+app.use(cors(
+    {
+        origin: ['http://localhost:5173','https://clip-nest-sigma.vercel.app/'],
+        credentials: true,
+    }
+))
 app.use(express.json());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/api/auth', authRoutes);
