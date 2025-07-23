@@ -10,8 +10,7 @@ function ImageSearch() {
   const [selectedImage, setSelectedImage] = useState(null);
   
     const baseUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
-  useEffect(() => {
-    const fetchImages = async () => {
+      const fetchImages = async () => {
       try {
         setIsLoading(true);
         const res = await axios.get(`${baseUrl}/api/files/images`, {
@@ -26,6 +25,8 @@ function ImageSearch() {
         setIsLoading(false);
       }
     };
+  useEffect(() => {
+  
     fetchImages();
   }, []);
 
@@ -62,7 +63,7 @@ function ImageSearch() {
       await axios.delete(`${baseUrl}/api/files/images/${imageId}`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       });
-      setImages(images.filter(img => img._id !== imageId));
+      fetchImages();
       setSelectedImage(null);
       toast.success('Image deleted successfully');
     } catch (error) {

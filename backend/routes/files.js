@@ -122,5 +122,23 @@ router.get('/images/search', auth, async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 });
+//delete image
+router.delete('/images/:id', auth, async (req, res) => {
+  const { id } = req.params;
+  try {
+    const image = await Image.findByIdAndDelete(id);
+    if (!image) {
+      return res.status(404).json({ message: 'Image not found' });
+    }
+    await Folder.findByIdAndUpdate(
+      image.folderId,
+      { $inc: { numberOfFiles: -1 } },
+      { new: true }
+    );
+    res.json({ message: 'Image deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error' });
+  }
+});
 
 export default router;
