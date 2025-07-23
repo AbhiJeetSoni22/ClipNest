@@ -11,34 +11,7 @@ function Login() {
   const baseUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
   const token = localStorage.getItem('token');
   const navigate = useNavigate();
-  useEffect(()=>{
-        const handleAuth =async ()=>{
-  try {
-        const res = await axios.post(
-      `${baseUrl}/api/auth/getme`,
-      {}, // empty body
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
- 
-    if(res.status !== 200) {
-      toast.error('Session expired. Please log in again.');
-      localStorage.removeItem('token');
-      navigate('/');
-      return;
-    }
-    else{
-      navigate('/dashboard');
-    }
-  } catch (error) {
-    console.log('Error fetching user data:', error);
-  }
-  }
-    handleAuth();
-  }, []);
+
   const handleLogin = async (e) => {
     e.preventDefault();
     setIsLoading(true);
